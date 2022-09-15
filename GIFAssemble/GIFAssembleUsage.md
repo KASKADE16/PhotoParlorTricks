@@ -13,3 +13,31 @@ python subfolder.py
 ```
 
 this makes all folder,which are in the same folder as the .py runs.enter its process.
+
+
+
+### Index
+
+the gif output feature some indexes,including:
+
+```bash
+	usage: subfolder.py [-h] [-f FRAME] [-r REVERSE] [-n NAME]
+
+options:
+  -h, --help            show this help message and exit
+  -f FRAME, --frame FRAME
+                        决定gif的帧数
+                        decide the framerate of the gif
+  -r REVERSE, --reverse REVERSE
+                        决定gif是否倒放
+                        decide whether the gif is reversed or not
+  -n NAME, --name NAME  决定gif的名字
+  						decide the gif's name
+```
+
+for example
+
+```bash
+python subfolder.py --frame 60 --reverse 1
+```
+
