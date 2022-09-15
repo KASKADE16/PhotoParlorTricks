@@ -24,7 +24,7 @@ parser.add_argument("-n", "--name", type=str, help="决定gif的名字", required=Fal
 args = parser.parse_args()
 
 if len(sys.argv) <= 1:
-    args.frame=float(1/24)
+    args.frame=24
     Reversed=0
 
 
@@ -78,7 +78,7 @@ for i in foldername:
             im.append(imageio.v2.imread(format(folderPath+"\\"+str(p)+".png")))  #不能按照photolist的文件列表顺序插入图片，会导致乱序。而姊程序已将gif分解为从0-n的png图像，直接整形记录图片即可
             p+=1
             #print("using"+photolist[i])
-            durationG+=float(1/args.frame/50)          #设置每一帧的时间
+            durationG+=float(1/(args.frame*30))          #设置每一帧的时间
     else:
         print("反向")
         p=len(photolist)-1  
@@ -86,7 +86,7 @@ for i in foldername:
             im.append(imageio.v2.imread(format(folderPath+"\\"+str(p)+".png")))  #不能按照photolist的文件列表顺序插入图片，会导致乱序。而姊程序已将gif分解为从0-n的png图像，直接整形记录图片即可
             p-=1
             #print("using"+photolist[i])
-            durationG+=float(1/args.frame/50)        #设置每一帧的时间
+            durationG+=float(1/(args.frame*30))        #设置每一帧的时间
 
     print(format(dirnames[idx])+"的总时长为"+format(durationG))
     Filename=dirnames[idx]+".gif"
