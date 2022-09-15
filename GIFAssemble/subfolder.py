@@ -1,11 +1,13 @@
 # coding=gbk
 
 import os
+from pickle import FALSE
 import cv2
 import sys
 import os.path
 import math
 import imageio.v2
+import argparse
 from PIL import Image
 
 class Nstr:  #清除字符串a中所有等于b的部分
@@ -14,6 +16,18 @@ class Nstr:  #清除字符串a中所有等于b的部分
     def __sub__(self,other):
         c=self.x.replace(other.x,"")
         return c
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--frame", type=int, help="决定gif的帧数", default=24, required=False)
+parser.add_argument("-r", "--reverse", type=int, help="决定gif是否倒放",default=0,required=False)
+parser.add_argument("-n", "--name", type=str, help="决定gif的名字", required=False)
+args = parser.parse_args()
+
+if len(sys.argv) <= 1:
+    args.frame=float(1/24)
+    Reversed=0
+
+
 
 
 dir=os.getcwd()
@@ -57,14 +71,26 @@ for i in foldername:
     print("当前正在处理的文件夹是"+format(folderPath))
     photolist=os.listdir(folderPath)
     print("一共有"+str(len(photolist))+"张照片")
-    p=0  
-    for i in range(len(photolist)):  #替代插入法制作gif
-        im.append(imageio.v2.imread(format(folderPath+"\\"+str(p)+".png")))  #不能按照photolist的文件列表顺序插入图片，会导致乱序。而姊程序已将gif分解为从0-n的png图像，直接整形记录图片即可
-        p+=1
-        #print("using"+photolist[i])
-        durationG+=0.0007           #设置每一帧的时间
+    if args.reverse==0:
+        print("正向")
+        p=0  
+        for i in range(len(photolist)):  #替代插入法制作gif
+            im.append(imageio.v2.imread(format(folderPath+"\\"+str(p)+".png")))  #不能按照photolist的文件列表顺序插入图片，会导致乱序。而姊程序已将gif分解为从0-n的png图像，直接整形记录图片即可
+            p+=1
+            #print("using"+photolist[i])
+            durationG+=float(1/args.frame/50)          #设置每一帧的时间
+    else:
+        print("反向")
+        p=len(photolist)-1  
+        for i in range(len(photolist)):  #替代插入法制作gif
+            im.append(imageio.v2.imread(format(folderPath+"\\"+str(p)+".png")))  #不能按照photolist的文件列表顺序插入图片，会导致乱序。而姊程序已将gif分解为从0-n的png图像，直接整形记录图片即可
+            p-=1
+            #print("using"+photolist[i])
+            durationG+=float(1/args.frame/50)        #设置每一帧的时间
+
     print(format(dirnames[idx])+"的总时长为"+format(durationG))
-    imageio.mimsave(format(dirnames[idx]+".gif"),im,'GIF',duration=durationG)
+    Filename=dirnames[idx]+".gif"
+    imageio.mimsave(format(Filename),im,'GIF',duration=durationG)
     idx+=1
     
     
